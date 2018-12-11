@@ -1,0 +1,26 @@
+package com.revature.map;
+
+import java.io.IOException;
+
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Mapper;
+
+public class Question5Mapper extends Mapper<LongWritable, Text, Text, Text> {
+
+	@Override
+	public void map(LongWritable key, Text value, Context context)
+			throws IOException, InterruptedException {
+		String line = value.toString();
+		
+		if (line.toLowerCase().contains("educational attainment, no schooling, population 25+ years, female (%)")){
+			
+		}
+		else if(line.toLowerCase().contains("married women are required by law to obey their husbands (1=yes; 0=no)")){
+			
+		}
+		else if(line.toLowerCase().trim().equals("women who believe a husband is justified in beating his wife (any of five reasons) (%)")){
+			
+		}
+	}
+}

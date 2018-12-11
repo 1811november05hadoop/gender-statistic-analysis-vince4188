@@ -1,0 +1,38 @@
+package com.revature.map;
+
+import java.io.IOException;
+
+import org.apache.hadoop.io.DoubleWritable;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Mapper;
+
+public class EmploymentMaleMapper extends Mapper<LongWritable, Text, Text, DoubleWritable>{
+
+	@Override
+	protected void map(LongWritable key, Text value, Context context)
+			throws IOException, InterruptedException {
+		
+		String line = value.toString();
+		line = line.substring(1).substring(0, line.length()-2);
+		String[] splits = line.split("\",\"");
+		
+		if (line.toLowerCase().contains("unemployment") && line.toLowerCase().contains("(% of female labor force") && line.toLowerCase().contains("ilo")){
+			if (splits.length > 4){
+				int count = 0;
+				for (int i = 44; i < splits.length; i++){
+					if(!splits[i].trim().equals("")) {
+						count++;
+						context.write(new Text(splits[2] + " (" + splits[0] + "): "), new DoubleWritable(Double.parseDouble(splits[i])));
+					}
+				}
+				if (count == 0){
+					context.write(new Text(splits[2] + " (" + splits[0] + "): "), new DoubleWritable(-1.0));
+				}
+			}
+			else{
+				context.write(new Text(splits[2] + " (" + splits[0] + "): "), new DoubleWritable(-1.0));
+			}
+		}
+	}
+}

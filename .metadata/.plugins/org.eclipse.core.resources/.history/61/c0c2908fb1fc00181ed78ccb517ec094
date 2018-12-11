@@ -1,0 +1,17 @@
+package com.revature;
+
+import org.apache.hadoop.mapreduce.Job;
+
+public class EmploymentMale {
+
+	public static void main(String[] args) throws Exception{
+		
+		if (args.length != 2){
+			System.err.println("Usage: EmployementMale <input dir> <output dir>");
+			System.exit(-1);
+		}
+		
+		//The MapReduce job object
+		Job job = new Job();
+	}
+}

@@ -1,0 +1,17 @@
+package com.revature.map;
+
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Mapper;
+
+public class USEducationMapper  extends Mapper<LongWritable, Text, Text, Text>{
+
+	@Override
+	public void map(LongWritable key, Text value, Context context){
+		String line = value.toString();
+		
+		if (line.toLowerCase().contains("united states")){
+			
+		}
+	}
+}

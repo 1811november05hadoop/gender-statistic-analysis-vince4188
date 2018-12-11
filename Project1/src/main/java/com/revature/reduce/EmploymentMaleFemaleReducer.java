@@ -1,0 +1,34 @@
+package com.revature.reduce;
+
+import java.io.IOException;
+
+import org.apache.hadoop.io.DoubleWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Reducer;
+
+public class EmploymentMaleFemaleReducer extends Reducer<Text, DoubleWritable, Text, Text>{
+
+	@Override
+	public void reduce(Text key, Iterable<DoubleWritable> values, Context context)
+			throws IOException, InterruptedException {
+		
+		double change = 0.0;
+		double prevVal = 0.0;
+		double counter = 0.0;
+		
+		for(DoubleWritable value: values){
+			if (value.get() == -1){
+				context.write(key, new Text("No valid data between 2000-2016"));
+				break;
+			}
+			if (prevVal == 0.0){
+				prevVal = value.get();
+			}
+			else{
+				change += value.get() - prevVal;
+				counter++;
+			}			
+		}
+		context.write(key, new Text(change/counter + "%"));
+	}
+}

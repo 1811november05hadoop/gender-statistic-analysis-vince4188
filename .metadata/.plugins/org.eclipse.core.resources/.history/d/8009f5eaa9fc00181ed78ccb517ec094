@@ -1,0 +1,26 @@
+package com.revature.map;
+
+import java.io.IOException;
+
+import org.apache.hadoop.io.DoubleWritable;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Mapper;
+
+public class EmploymentMaleMapper extends Mapper<LongWritable, Text, Text, DoubleWritable>{
+
+	@Override
+	protected void map(LongWritable key, Text value, Context context)
+			throws IOException, InterruptedException {
+		
+		String line = value.toString();
+		line = line.substring(1).substring(0, line.length()-2);
+		String[] splits = line.split("\",\"");
+		String country = splits[0];
+		double percent = 0.0;
+		
+		if (splits.length > 4){
+			
+		}
+	}
+}

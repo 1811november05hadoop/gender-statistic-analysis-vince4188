@@ -13,7 +13,7 @@ public class WorldWomenEducation {
 	public static void main(String[] args) throws Exception{
 		
 		if (args.length != 2){
-			System.err.println("Usage: WordCount <input dir> <output dir>");
+			System.err.println("Usage: WorldWomenEducation <input dir> <output dir>");
 			System.exit(-1);
 		}
 		
@@ -21,10 +21,10 @@ public class WorldWomenEducation {
 		Job job = new Job();
 		
 		//The class that contains the main method.
-		job.setJarByClass(WordCount.class);
+		job.setJarByClass(WorldWomenEducation.class);
 		
 		job.setJobName("Women Education Global");
-		
+
 		//Set input and output paths
 		FileInputFormat.setInputPaths(job, new Path(args[0]));
 		FileOutputFormat.setOutputPath(job, new Path(args[1]));

@@ -1,0 +1,9 @@
+package com.revature.map;
+
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Mapper;
+
+public class USEducationMapper  extends Mapper<LongWritable, Text, Text, Text>{
+
+}
