@@ -1,0 +1,42 @@
+package com.revature.reduce;
+
+import java.io.IOException;
+
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Reducer;
+
+public class Question5Reducer extends Reducer<Text, Text, Text, Text>{
+
+	@Override
+	public void reduce(Text key, Iterable<Text> values, Context context)
+			throws IOException, InterruptedException {
+		String returnStr  = "(" + key.toString() + ") ";
+		String returnVal = "";
+		
+		for (Text value: values){
+			String code = value.toString().substring(0, 1);
+			String year = value.toString().substring(1, 5);
+			String val = value.toString().substring(5);
+			if(code.equals("1")){
+				returnStr += "Females with no schooling(population 25+)";
+				returnVal = val + "%";
+			}
+			else if(code.equals("2")){
+				returnStr += "Married women are required by law to obey their husbands";
+				if (val.equals(1)){
+					returnVal = "YES";
+				}
+				else if(val.equals(0)){
+					returnVal = "NO";
+				}
+			}
+			else if(code.equals("3")){
+				returnStr += "Women who believe a husband is justified in beating his wife (any of five reasons)";
+				returnVal = val + "%" +
+				"\n===========================================================";
+			}
+			returnStr += "(" + year +"): ";
+			context.write(new Text(returnStr), new Text(returnVal));
+		}
+	}
+}

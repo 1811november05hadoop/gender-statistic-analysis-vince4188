@@ -1,0 +1,33 @@
+package com.revature.test;
+
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mrunit.mapreduce.MapDriver;
+import org.junit.Before;
+import org.junit.Test;
+
+import com.revature.map.WorldWomenMapper;
+
+public class WorldWomenEducationTest {
+	
+	private MapDriver<LongWritable, Text, Text, Text> mapDriver;
+	
+	@Before
+	public void setUp() {
+		WorldWomenMapper mapper = new WorldWomenMapper();
+		mapDriver = new MapDriver<>();
+		mapDriver.setMapper(mapper);	
+	}
+	
+	@Test
+	public void testMapper() {
+		//Mock Input
+		mapDriver.withInput(new LongWritable(1), new Text("\"Zimbabwe\",\"ZWE\",\"Educational attainment, completed upper secondary, population 25+ years, female (%)\",\"SE.SEC.HIAT.UP.FE.ZS\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"0.56946\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"1.35334\",\"\",\"1.47717\",\"\",\"\","));				
+		//Expected Output
+		mapDriver.withOutput(new Text("cat"), new Text(""));
+		
+		//mapDriver.runTest();
+	}
+
+}

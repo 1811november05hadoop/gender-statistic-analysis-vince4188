@@ -18,7 +18,13 @@ public class EmploymentMaleFemaleReducer extends Reducer<Text, DoubleWritable, T
 		
 		for(DoubleWritable value: values){
 			if (value.get() == -1){
-				context.write(key, new Text("No valid data between 2000-2016"));
+				if(key.toString().contains("youth female")){
+					context.write(key, new Text("No valid data between 2000-2016"+
+					"\n==========================================================="));
+				}
+				else{
+					context.write(key, new Text("No valid data between 2000-2016"));
+				}
 				break;
 			}
 			if (prevVal == 0.0){
@@ -26,9 +32,16 @@ public class EmploymentMaleFemaleReducer extends Reducer<Text, DoubleWritable, T
 			}
 			else{
 				change += value.get() - prevVal;
+				prevVal = value.get();
 				counter++;
-			}			
+			}	
 		}
-		context.write(key, new Text(change/counter + "%"));
+		if(key.toString().contains("youth female") && counter != 0.0){
+			context.write(key, new Text(change/counter + "%" +
+			"\n==========================================================="));
+		}
+		else if(counter != 0.0){
+			context.write(key, new Text(change/counter + "%"));
+		}
 	}
 }

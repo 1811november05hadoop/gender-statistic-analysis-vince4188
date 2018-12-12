@@ -20,7 +20,7 @@ public class WorldWomenMapper extends Mapper<LongWritable, Text, Text, Text> {
 			String[] splits = line.split("\",\"");
 			String country = splits[0];
 			double percent = 0.0;
-			int year = 1960 + splits.length - 4;
+			int year = 1960 + splits.length - 5;
 			//arrays of length 4 have no data
 			if(splits.length > 4){
 				//the last section in the array should contain a value, but just in case...
@@ -31,7 +31,7 @@ public class WorldWomenMapper extends Mapper<LongWritable, Text, Text, Text> {
 					}
 				}
 				if (percent < 30.0){
-					String result = country;
+					String result = "(" + country + ")";
 					if(line.contains("completed upper secondary")){
 						result += " completed upper secondary ";
 					}
@@ -45,6 +45,7 @@ public class WorldWomenMapper extends Mapper<LongWritable, Text, Text, Text> {
 						result += " completed Doctoral ";
 					}
 					result += " (population female 25+)(" + year + "):";
+					
 					context.write(new Text(result), new Text(Double.toString(percent) + "%"));
 				}
 			}

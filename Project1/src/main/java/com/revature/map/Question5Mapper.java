@@ -14,19 +14,24 @@ public class Question5Mapper extends Mapper<LongWritable, Text, Text, Text> {
 		String line = value.toString();
 		line = line.substring(1).substring(0, line.length()-3);
 		String[] splits = line.split("\",\"");
-		int year = 1960 + splits.length - 4;
-		int code = 0;
+		int year = 1960 + splits.length - 5;
+		String code = "d";
 		if (line.toLowerCase().contains("educational attainment, no schooling, population 25+ years, female (%)")){
-			code = 1;
+			code = "a";
 		}
 		else if(line.toLowerCase().contains("married women are required by law to obey their husbands (1=yes; 0=no)")){
-			code = 2;
+			code = "b";
 		}
-		else if(line.toLowerCase().trim().equals("women who believe a husband is justified in beating his wife (any of five reasons) (%)")){
-			code = 3;
+		else if(line.toLowerCase().contains("sg.vaw.reas.zs")){
+			code = "c";
 		}
-		if (code > 0 && splits.length > 4){
-			context.write(new Text(splits[0]), new Text(code + year + splits[splits.length-1]));
+		if (code.equals("a") || code.equals("b") || code.equals("c")){
+			if(splits.length > 4){
+				context.write(new Text(splits[0]), new Text(code + year + "" + splits[splits.length-1]));
+			}
+			else{
+				context.write(new Text(splits[0]), new Text(code + year + "NO VALID DATA"));
+			}
 		}
 	}
 }
