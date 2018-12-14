@@ -1,0 +1,96 @@
+package com.revature.test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.hadoop.io.DoubleWritable;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mrunit.mapreduce.MapDriver;
+import org.apache.hadoop.mrunit.mapreduce.MapReduceDriver;
+import org.apache.hadoop.mrunit.mapreduce.ReduceDriver;
+import org.junit.Before;
+import org.junit.Test;
+
+import com.revature.map.EmploymentMaleMapper;
+import com.revature.reduce.EmploymentMaleFemaleReducer;
+
+public class EmploymentMaleTest {
+	
+	private MapDriver<LongWritable, Text, Text, DoubleWritable> mapDriver;
+	private ReduceDriver<Text, DoubleWritable, Text, Text> reduceDriver;
+	private MapReduceDriver<LongWritable, Text, Text, DoubleWritable, Text, Text> mapReduceDriver;
+	
+	@Before
+	public void setUp(){
+		EmploymentMaleMapper mapper = new EmploymentMaleMapper();
+		mapDriver = new MapDriver<>();
+		mapDriver.setMapper(mapper);
+		
+		EmploymentMaleFemaleReducer reducer = new EmploymentMaleFemaleReducer();
+		reduceDriver = new ReduceDriver<>();
+		reduceDriver.setReducer(reducer);
+		
+		mapReduceDriver = new MapReduceDriver<>();
+		mapReduceDriver.setMapper(mapper);
+		mapReduceDriver.setReducer(reducer);
+	}
+	
+	@Test
+	public void testMapper(){
+		
+		mapDriver.withInput(new LongWritable(1), new Text("\"United States\",\"USA\",\"Unemployment, male (% of male labor force) (modeled ILO estimate)\",\"SL.UEM.TOTL.MA.ZS\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"7.13700008392334\",\"7.86899995803833\",\"7.17999982833862\",\"6.17000007629395\",\"5.61800003051758\",\"5.40000009536743\",\"4.84600019454956\",\"4.4229998588562\",\"4.125\",\"3.89100003242493\",\"4.76999998092651\",\"5.93100023269653\",\"6.26900005340576\",\"5.58699989318848\",\"5.08199977874756\",\"4.61100006103516\",\"4.72700023651123\",\"6.14699983596802\",\"10.3579998016357\",\"10.4799995422363\",\"9.29699993133544\",\"8.25599956512451\",\"7.69000005722046\",\"6.27799987792969\",\"5.42600011825562\",\"5.02600002288818\","));
+	
+		mapDriver.withOutput(new Text("(United States) Percent change in unemployment, male(% male labor force)(ILO)(2000-2016): "), new DoubleWritable(4.76999998092651-3.89100003242493));
+		mapDriver.withOutput(new Text("(United States) Percent change in unemployment, male(% male labor force)(ILO)(2000-2016): "), new DoubleWritable(5.93100023269653-4.76999998092651));
+		mapDriver.withOutput(new Text("(United States) Percent change in unemployment, male(% male labor force)(ILO)(2000-2016): "), new DoubleWritable(6.26900005340576-5.93100023269653));
+		mapDriver.withOutput(new Text("(United States) Percent change in unemployment, male(% male labor force)(ILO)(2000-2016): "), new DoubleWritable(5.58699989318848-6.26900005340576));
+		mapDriver.withOutput(new Text("(United States) Percent change in unemployment, male(% male labor force)(ILO)(2000-2016): "), new DoubleWritable(5.08199977874756-5.58699989318848));
+		mapDriver.withOutput(new Text("(United States) Percent change in unemployment, male(% male labor force)(ILO)(2000-2016): "), new DoubleWritable(4.61100006103516-5.08199977874756));
+		mapDriver.withOutput(new Text("(United States) Percent change in unemployment, male(% male labor force)(ILO)(2000-2016): "), new DoubleWritable(4.72700023651123-4.61100006103516));
+		mapDriver.withOutput(new Text("(United States) Percent change in unemployment, male(% male labor force)(ILO)(2000-2016): "), new DoubleWritable(6.14699983596802-4.72700023651123));
+		mapDriver.withOutput(new Text("(United States) Percent change in unemployment, male(% male labor force)(ILO)(2000-2016): "), new DoubleWritable(10.3579998016357-6.14699983596802));
+		mapDriver.withOutput(new Text("(United States) Percent change in unemployment, male(% male labor force)(ILO)(2000-2016): "), new DoubleWritable(10.4799995422363-10.3579998016357));
+		mapDriver.withOutput(new Text("(United States) Percent change in unemployment, male(% male labor force)(ILO)(2000-2016): "), new DoubleWritable(9.29699993133544-10.4799995422363));
+		mapDriver.withOutput(new Text("(United States) Percent change in unemployment, male(% male labor force)(ILO)(2000-2016): "), new DoubleWritable(8.25599956512451-9.29699993133544));
+		mapDriver.withOutput(new Text("(United States) Percent change in unemployment, male(% male labor force)(ILO)(2000-2016): "), new DoubleWritable(7.69000005722046-8.25599956512451));
+		mapDriver.withOutput(new Text("(United States) Percent change in unemployment, male(% male labor force)(ILO)(2000-2016): "), new DoubleWritable(6.27799987792969-7.69000005722046));
+		mapDriver.withOutput(new Text("(United States) Percent change in unemployment, male(% male labor force)(ILO)(2000-2016): "), new DoubleWritable(5.42600011825562-6.27799987792969));
+		mapDriver.withOutput(new Text("(United States) Percent change in unemployment, male(% male labor force)(ILO)(2000-2016): "), new DoubleWritable(5.02600002288818-5.42600011825562));
+
+		mapDriver.runTest();
+	}
+	
+	@Test
+	public void testReducer(){
+		List<DoubleWritable> values = new ArrayList<>();
+		
+		values.add(new DoubleWritable(4.76999998092651-3.89100003242493));
+		values.add(new DoubleWritable(5.93100023269653-4.76999998092651));
+		values.add(new DoubleWritable(6.26900005340576-5.93100023269653));
+		values.add(new DoubleWritable(5.58699989318848-6.26900005340576));
+		values.add(new DoubleWritable(5.08199977874756-5.58699989318848));
+		values.add(new DoubleWritable(4.61100006103516-5.08199977874756));
+		values.add(new DoubleWritable(4.72700023651123-4.61100006103516));
+		values.add(new DoubleWritable(6.14699983596802-4.72700023651123));
+		values.add(new DoubleWritable(10.3579998016357-6.14699983596802));
+		values.add(new DoubleWritable(10.4799995422363-10.3579998016357));
+		values.add(new DoubleWritable(9.29699993133544-10.4799995422363));
+		values.add(new DoubleWritable(8.25599956512451-9.29699993133544));
+		values.add(new DoubleWritable(7.69000005722046-8.25599956512451));
+		values.add(new DoubleWritable(6.27799987792969-7.69000005722046));
+		values.add(new DoubleWritable(5.42600011825562-6.27799987792969));
+		values.add(new DoubleWritable(5.02600002288818-5.42600011825562));
+		
+		reduceDriver.withInput(new Text("(United States) Percent change in unemployment, male(% male labor force)(ILO)(2000-2016): "), values);
+		
+		reduceDriver.withOutput(new Text("(United States) Percent change in unemployment, male(% male labor force)(ILO)(2000-2016): "), new Text("0.07093749940395314%"));
+		
+		reduceDriver.runTest();
+	}
+	
+	@Test
+	public void testMapReduce(){
+		
+	}
+}

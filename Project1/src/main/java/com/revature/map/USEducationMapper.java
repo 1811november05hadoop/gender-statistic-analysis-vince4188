@@ -19,9 +19,16 @@ public class USEducationMapper  extends Mapper<LongWritable, Text, Text, DoubleW
 				line = line.substring(1).substring(0, line.length()-3);
 				String[] splits = line.split("\",\"");
 				
+				double prevVal = 0.0;
 				for (int i = 44; i < splits.length; i++){
 					if(!splits[i].isEmpty()) {
-						context.write(new Text(splits[2] + ": "), new DoubleWritable(Double.parseDouble(splits[i])));
+						if(prevVal == 0.0){
+							prevVal = Double.parseDouble(splits[i]);
+						}
+						else{
+							context.write(new Text(splits[2] + ": "), new DoubleWritable(Double.parseDouble(splits[i]) - prevVal));
+							prevVal = Double.parseDouble(splits[i]);
+						}
 					}
 				}
 			}

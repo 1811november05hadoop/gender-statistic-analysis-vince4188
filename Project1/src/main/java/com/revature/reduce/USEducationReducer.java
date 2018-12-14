@@ -12,19 +12,13 @@ public class USEducationReducer  extends Reducer<Text, DoubleWritable, Text, Dou
 	public void reduce(Text key, Iterable<DoubleWritable> values, Context context)
 			throws IOException, InterruptedException {
 		
-		double total = 0;
-		
-		double prevYear = 0.0;
-		double counter = 0;
+		double total = 0.0;
+
+		double counter = 0.0;
 		for(DoubleWritable value: values){
-			if (prevYear == 0.0){
-				prevYear = value.get();
-			}
-			else{
-				total += value.get() - prevYear;
-				prevYear = value.get();
-				counter++;
-			}
+			//context.write(key, value);
+			total += value.get();
+			counter++;
 		}
 		
 		context.write(key, new DoubleWritable(total/counter));

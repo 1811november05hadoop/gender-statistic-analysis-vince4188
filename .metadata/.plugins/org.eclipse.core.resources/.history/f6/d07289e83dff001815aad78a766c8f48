@@ -1,0 +1,62 @@
+package com.revature.test;
+
+import org.apache.hadoop.io.DoubleWritable;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mrunit.mapreduce.MapDriver;
+import org.apache.hadoop.mrunit.mapreduce.MapReduceDriver;
+import org.apache.hadoop.mrunit.mapreduce.ReduceDriver;
+import org.junit.Before;
+import org.junit.Test;
+
+import com.revature.map.EmploymentFemaleMapper;
+import com.revature.reduce.EmploymentMaleFemaleReducer;
+
+public class EmploymentFemaleTest {
+
+	private MapDriver<LongWritable, Text, Text, DoubleWritable> mapDriver;
+	private ReduceDriver<Text, DoubleWritable, Text, Text> reduceDriver;
+	private MapReduceDriver<LongWritable, Text, Text, DoubleWritable, Text, Text> mapReduceDriver;
+	
+	@Before
+	public void setUp(){
+		EmploymentFemaleMapper mapper = new EmploymentFemaleMapper();
+		mapDriver = new MapDriver<>();
+		mapDriver.setMapper(mapper);
+		
+		EmploymentMaleFemaleReducer reducer = new EmploymentMaleFemaleReducer();
+		reduceDriver = new ReduceDriver<>();
+		reduceDriver.setReducer(reducer);
+		
+		mapReduceDriver = new MapReduceDriver<>();
+		mapReduceDriver.setMapper(mapper);
+		mapReduceDriver.setReducer(reducer);
+		
+	}
+	
+	@Test
+	public void testMapper(){
+		
+		mapDriver.withInput(new LongWritable(1), new Text("\"United States\",\"USA\",\"Unemployment, female (% of female labor force) (modeled ILO estimate)\",\"SL.UEM.TOTL.FE.ZS\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"6.38000011444092\",\"7.04199981689453\",\"6.55399990081787\",\"6.0149998664856\",\"5.5789999961853\",\"5.39900016784668\",\"4.96400022506714\",\"4.59299993515015\",\"4.28900003433228\",\"4.13100004196167\",\"4.61600017547607\",\"5.64400005340576\",\"5.68100023269653\",\"5.39599990844727\",\"5.12099981307983\",\"4.58599996566772\",\"4.44999980926514\",\"5.3899998664856\",\"8.06099987030029\",\"8.56900024414063\",\"8.43400001525879\",\"7.91599988937378\",\"7.05600023269653\",\"6.10799980163574\",\"5.15100002288818\",\"4.76399993896484\","));
+	
+		mapDriver.withOutput(new Text("(United States) Percent change in unemployment, female(% female labor force)(ILO)(2000-2016): "), new DoubleWritable(4.61600017547607-4.13100004196167));
+		mapDriver.withOutput(new Text("(United States) Percent change in unemployment, female(% female labor force)(ILO)(2000-2016): "), new DoubleWritable(5.64400005340576-4.61600017547607));
+		/*mapDriver.withOutput(new Text("(United States) Percent change in unemployment, female(% female labor force)(ILO)(2000-2016): "), new DoubleWritable(5.68100023269653-5.64400005340576));
+		mapDriver.withOutput(new Text("(United States) Percent change in unemployment, female(% female labor force)(ILO)(2000-2016): "), new DoubleWritable(5.39599990844727-5.68100023269653));
+		mapDriver.withOutput(new Text("(United States) Percent change in unemployment, female(% female labor force)(ILO)(2000-2016): "), new DoubleWritable(5.12099981307983-5.39599990844727));
+		mapDriver.withOutput(new Text("(United States) Percent change in unemployment, female(% female labor force)(ILO)(2000-2016): "), new DoubleWritable(4.58599996566772-5.12099981307983));
+		mapDriver.withOutput(new Text("(United States) Percent change in unemployment, female(% female labor force)(ILO)(2000-2016): "), new DoubleWritable(4.44999980926514-4.58599996566772));
+		mapDriver.withOutput(new Text("(United States) Percent change in unemployment, female(% female labor force)(ILO)(2000-2016): "), new DoubleWritable(5.3899998664856-4.44999980926514));
+		mapDriver.withOutput(new Text("(United States) Percent change in unemployment, female(% female labor force)(ILO)(2000-2016): "), new DoubleWritable(8.06099987030029-5.3899998664856));
+		mapDriver.withOutput(new Text("(United States) Percent change in unemployment, female(% female labor force)(ILO)(2000-2016): "), new DoubleWritable(8.56900024414063-8.06099987030029));
+		mapDriver.withOutput(new Text("(United States) Percent change in unemployment, female(% female labor force)(ILO)(2000-2016): "), new DoubleWritable(8.43400001525879-8.56900024414063));
+		mapDriver.withOutput(new Text("(United States) Percent change in unemployment, female(% female labor force)(ILO)(2000-2016): "), new DoubleWritable(7.91599988937378-8.43400001525879));
+		mapDriver.withOutput(new Text("(United States) Percent change in unemployment, female(% female labor force)(ILO)(2000-2016): "), new DoubleWritable(7.05600023269653-7.91599988937378));
+		mapDriver.withOutput(new Text("(United States) Percent change in unemployment, female(% female labor force)(ILO)(2000-2016): "), new DoubleWritable(6.10799980163574-7.05600023269653));
+		mapDriver.withOutput(new Text("(United States) Percent change in unemployment, female(% female labor force)(ILO)(2000-2016): "), new DoubleWritable(5.15100002288818-6.10799980163574));
+		mapDriver.withOutput(new Text("(United States) Percent change in unemployment, female(% female labor force)(ILO)(2000-2016): "), new DoubleWritable(4.76399993896484-5.15100002288818));
+		48500013351439986
+		48500013351439986*/
+		mapDriver.runTest();
+	}
+}

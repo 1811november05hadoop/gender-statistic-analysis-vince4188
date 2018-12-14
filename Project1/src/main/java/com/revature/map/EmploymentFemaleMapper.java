@@ -29,10 +29,14 @@ public class EmploymentFemaleMapper extends Mapper<LongWritable, Text, Text, Dou
 			
 			if (splits.length > 4){
 				int count = 0;
+				double prevVal = 0.0;
 				for (int i = 44; i < splits.length; i++){
 					if(!splits[i].isEmpty() && !splits[i].trim().trim().equals("\"")) {
 						count++;
-						context.write(new Text(newKey), new DoubleWritable(Double.parseDouble(splits[i])));
+						if(prevVal != 0.0){
+							context.write(new Text(newKey), new DoubleWritable(Double.parseDouble(splits[i]) - prevVal));
+						}
+						prevVal = Double.parseDouble(splits[i]);
 					}
 				}
 				//if count is 0 means there was no data after year 2000

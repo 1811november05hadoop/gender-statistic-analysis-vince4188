@@ -48,10 +48,7 @@ public class WorldWomenMapper extends Mapper<LongWritable, Text, Text, Text> {
 					
 					context.write(new Text(result), new Text(Double.toString(percent) + "%"));
 				}
-			}
-			//else{
-			//	context.write(new Text(country + "(" + year + "): "), new Text("NO VALID DATA"));
-			//}		
+			}	
 		}
 	}
 

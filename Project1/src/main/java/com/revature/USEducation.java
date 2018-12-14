@@ -22,6 +22,8 @@ public class USEducation{
 		//The MapReduce job object
 		Job job = new Job();
 		
+		//job.setNumReduceTasks(0);
+		
 		//The class that contains the main method.
 		job.setJarByClass(USEducation.class);
 		
