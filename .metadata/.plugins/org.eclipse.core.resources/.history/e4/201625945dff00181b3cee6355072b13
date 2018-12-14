@@ -15,8 +15,8 @@ public class USEducationReducer  extends Reducer<Text, DoubleWritable, Text, Dou
 		double total = 0.0;
 
 		double counter = 0.0;
-		//adds up all the differences then will find the average by dividing by the counter
 		for(DoubleWritable value: values){
+			//context.write(key, value);
 			total += value.get();
 			counter++;
 		}

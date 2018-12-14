@@ -32,9 +32,7 @@ public class WorldWomenMapper extends Mapper<LongWritable, Text, Text, Text> {
 						break;
 					}
 				}
-				//only 30 percent or less returns value
 				if (percent < 30.0){
-					//just shortening return string value
 					String result = "(" + country + ")";
 					if(line.contains("completed upper secondary")){
 						result += " completed upper secondary ";
@@ -50,7 +48,6 @@ public class WorldWomenMapper extends Mapper<LongWritable, Text, Text, Text> {
 					}
 					result += " (population female 25+)(" + year + "):";
 					
-					//no reducer is needed, only 1 value for every line is ever used
 					context.write(new Text(result), new Text(Double.toString(percent) + "%"));
 				}
 			}	

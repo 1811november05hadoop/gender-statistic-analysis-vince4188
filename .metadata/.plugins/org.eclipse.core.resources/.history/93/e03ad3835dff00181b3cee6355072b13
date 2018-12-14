@@ -20,10 +20,8 @@ public class USEducationMapper  extends Mapper<LongWritable, Text, Text, DoubleW
 				String[] splits = line.split("\",\"");
 				
 				double prevVal = 0.0;
-				//purpose of this for loop is to cycle through all the data values and get the difference and send it to the reducer to sum up all the values
 				for (int i = 44; i < splits.length; i++){
 					if(!splits[i].isEmpty()) {
-						//to check if first value, if so there can be no diference
 						if(prevVal == 0.0){
 							prevVal = Double.parseDouble(splits[i]);
 						}

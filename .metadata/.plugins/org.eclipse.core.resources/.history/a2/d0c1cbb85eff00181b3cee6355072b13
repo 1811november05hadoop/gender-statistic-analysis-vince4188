@@ -17,7 +17,7 @@ public class Question5Reducer extends Reducer<Text, Text, Text, Text>{
 		String oneVal = "", twoVal = "", threeVal = "";
 		int counter = 0;
 		for (Text value: values){
-			//splits the value text into different chunks to get the values used
+			//context.write(key, value);
 			String code = value.toString().substring(0, 1);
 			String year = value.toString().substring(1, 5);
 			String val = value.toString().substring(5);
@@ -48,7 +48,6 @@ public class Question5Reducer extends Reducer<Text, Text, Text, Text>{
 				}
 			}
 		}
-		//I only want to return data if all of the three are available
 		if(counter == 3){
 			context.write(new Text(oneStr), new Text(oneVal));
 			context.write(new Text(twoStr), new Text(twoVal));

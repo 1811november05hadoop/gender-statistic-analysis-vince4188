@@ -35,7 +35,6 @@ public class EmploymentMaleFemaleReducer extends Reducer<Text, DoubleWritable, T
 			context.write(key, new Text(total/counter + "%" +
 			"\n==========================================================="));
 		}
-		//can only be the other line if it has a counter
 		else if(counter != 0.0){
 			context.write(key, new Text(total/counter + "%"));
 		}

@@ -13,15 +13,13 @@ public class WorldWomenMapper extends Mapper<LongWritable, Text, Text, Text> {
 			throws IOException, InterruptedException {
 		String line = value.toString();
 		
-		//checking for all the education levels excluding cumulative
 		if((line.contains("completed upper secondary")|| line.contains("completed Bachelor's") || line.contains("completed Master's") || line.contains("completed Doctoral")) 
 				&& line.contains("female") && !line.contains("cumulative")){
-			//cuts out all extra that will be left over from the split
+			//System.out.println(line);
 			line = line.substring(1).substring(0, line.length()-3);
 			String[] splits = line.split("\",\"");
 			String country = splits[0];
 			double percent = 0.0;
-			//split will cut off any data that is preceded by nothing so, we can determine the year from the last split data
 			int year = 1960 + splits.length - 5;
 			//arrays of length 4 have no data
 			if(splits.length > 4){
@@ -32,9 +30,7 @@ public class WorldWomenMapper extends Mapper<LongWritable, Text, Text, Text> {
 						break;
 					}
 				}
-				//only 30 percent or less returns value
 				if (percent < 30.0){
-					//just shortening return string value
 					String result = "(" + country + ")";
 					if(line.contains("completed upper secondary")){
 						result += " completed upper secondary ";
@@ -50,7 +46,6 @@ public class WorldWomenMapper extends Mapper<LongWritable, Text, Text, Text> {
 					}
 					result += " (population female 25+)(" + year + "):";
 					
-					//no reducer is needed, only 1 value for every line is ever used
 					context.write(new Text(result), new Text(Double.toString(percent) + "%"));
 				}
 			}	

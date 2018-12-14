@@ -16,10 +16,9 @@ public class EmploymentMaleFemaleReducer extends Reducer<Text, DoubleWritable, T
 		double counter = 0.0;
 		
 		for(DoubleWritable value: values){
-			//only a -1 can be received if there is no data 
 			if (value.get() == -1){
 				if(key.toString().contains("youth female") || key.toString().contains("youth male")){
-					context.write(key, new Text("No valid data between 2000-2016"+ //used to format the output to be more presentable
+					context.write(key, new Text("No valid data between 2000-2016"+
 					"\n==========================================================="));
 				}
 				else{
@@ -30,12 +29,10 @@ public class EmploymentMaleFemaleReducer extends Reducer<Text, DoubleWritable, T
 			total += value.get();
 			counter++;
 		}
-		//if its youth then it will be the bottom line, so needs to add the formatter for a more presentable look
 		if(key.toString().contains("youth female") || key.toString().contains("youth male") && counter != 0.0){
 			context.write(key, new Text(total/counter + "%" +
 			"\n==========================================================="));
 		}
-		//can only be the other line if it has a counter
 		else if(counter != 0.0){
 			context.write(key, new Text(total/counter + "%"));
 		}
